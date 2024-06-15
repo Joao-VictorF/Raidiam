@@ -1,6 +1,7 @@
 import './assets/main.css'
 
 import { createApp } from 'vue'
+// @ts-expect-error unhead does not have types
 import { createHead } from '@unhead/vue'
 import { createPinia } from 'pinia'
 
