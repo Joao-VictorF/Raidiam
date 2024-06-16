@@ -13,7 +13,7 @@ interface ICardFields {
 
 const props = defineProps<{ organisation: Organisation }>()
 const popoverBtnClasses =
-  'text-source-code text-[12px] bg-raidiamPink bg-opacity-30 hover:bg-raidiamDarkPink hover:bg-opacity-40 text-black w-full font-semibold'
+  'text-source-code text-[12px] bg-raidiamPink bg-opacity-30 hover:bg-raidiamDarkBlue hover:bg-opacity-40 text-black w-full font-semibold'
 
 const statusClasses = {
   [OrganisationStatus.Active]: 'bg-green-600',
@@ -51,7 +51,9 @@ const cardFields: ICardFields[] = [
           {{ organisation.Status ?? 'Unknown' }}
         </div>
       </div>
-      <p class="text-[11px] text-gray-600">{{ organisation.City }} - {{ organisation.Country }}</p>
+      <p class="text-[10px] font-bold text-gray-600">
+        {{ organisation.City }} - {{ organisation.Country }}
+      </p>
     </div>
 
     <div class="relative flex flex-col gap-y-2 mt-4">
@@ -81,7 +83,7 @@ const cardFields: ICardFields[] = [
         class="flex flex-col gap-y-2 border-t-2 border-gray-200 pt-2 mt-2"
       >
         <p class="text-[14px] font-semibold">Tags</p>
-        <div class="flex gap-x-3 justify-start">
+        <div class="flex flex-wrap gap-2 justify-start">
           <div
             v-for="tag in organisation.Tags"
             :key="tag"

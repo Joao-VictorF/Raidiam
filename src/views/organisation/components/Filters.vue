@@ -50,14 +50,14 @@ watch([selectedStatus, selectedTag, searchQuery], applyFilters)
       <ListBox
         :options="statusOptions"
         v-model:selected-item="selectedStatus"
-        class="w-full sm:w-1/6"
+        class="w-full sm:w-1/3"
         prefix-text="Status:"
       />
 
       <ListBox
         :options="uniqueTags"
         v-model:selected-item="selectedTag"
-        class="w-full sm:w-1/6"
+        class="w-full sm:w-1/3"
         prefix-text="Tags:"
       />
     </div>
