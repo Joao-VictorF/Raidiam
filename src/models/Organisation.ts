@@ -2,9 +2,14 @@ import type { OrgDomainClaim } from './OrgDomainClaim'
 import type { OrgDomainRoleClaim } from './OrgDomainRoleClaim'
 import type { AuthorisationServer } from './AuthorisationServer'
 
-export interface Organisation {
+export enum OrganisationStatus {
+  Active = 'Active',
+  Pending = 'Pending',
+  Withdrawn = 'Withdrawn'
+}
+export interface Organisation extends Record<string, any> {
   OrganisationId: string
-  Status: string
+  Status: OrganisationStatus
   OrganisationName: string
   CreatedOn: string
   LegalEntityName: string
