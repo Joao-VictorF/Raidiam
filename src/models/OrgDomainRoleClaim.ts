@@ -1,5 +1,9 @@
+export enum OrgDomainRoleClaimStatus {
+  Active = 'Active',
+  Inactive = 'Inactive'
+}
 export interface OrgDomainRoleClaim {
-  Status: string
+  Status: OrgDomainRoleClaimStatus
   AuthorisationDomain: string
   Role: string
   RegistrationId: string
