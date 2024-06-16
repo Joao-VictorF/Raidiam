@@ -34,24 +34,20 @@ const cardFields: ICardFields[] = [
   {
     label: 'Registration Number',
     organisationProp: 'RegistrationNumber'
-  },
-  {
-    label: 'Registration Number',
-    organisationProp: 'RegistrationNumber'
   }
 ]
 </script>
 
 <template>
   <div
-    class="bg-white rounded-lg shadow-md px-6 py-8 text-source-code flex flex-col justify-between cursor-pointer hover:shadow-lg"
+    class="bg-white rounded-lg shadow-md px-6 py-8 text-source-code flex flex-col justify-start cursor-pointer hover:shadow-lg"
   >
     <div class="flex flex-col">
       <div class="flex justify-between gap-x-3">
-        <h2 class="text-[14px] font-medium">
+        <h2 class="text-[14px] font-medium whitespace-nowrap text-ellipsis overflow-hidden">
           {{ organisation.OrganisationName }}
         </h2>
-        <div class="text-white w-fit h-min px-3 py-1 rounded-lg text-[12px]" :class="statusClass">
+        <div class="text-white w-fit h-min px-2 py-1 rounded-lg text-[10px]" :class="statusClass">
           {{ organisation.Status ?? 'Unknown' }}
         </div>
       </div>
@@ -79,6 +75,22 @@ const cardFields: ICardFields[] = [
       >
         <OrganisationDomainRoleClaims :OrgDomainRoleClaims="organisation.OrgDomainRoleClaims" />
       </Popover>
+
+      <div
+        v-if="organisation.Tags.length > 0"
+        class="flex flex-col gap-y-2 border-t-2 border-gray-200 pt-2 mt-2"
+      >
+        <p class="text-[14px] font-semibold">Tags</p>
+        <div class="flex gap-x-3 justify-start">
+          <div
+            v-for="tag in organisation.Tags"
+            :key="tag"
+            class="text-center text-gray-800 text-[10px] bg-[#dddddd] rounded-lg px-3 py-1"
+          >
+            {{ tag }}
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
