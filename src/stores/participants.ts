@@ -7,7 +7,7 @@ import type { Organisation } from '@/models/Organisation'
 export const useParticipantsStore = defineStore('participants', {
   state: () => ({
     organisations: [] as Organisation[],
-    filteredOrganisations: [] as Organisation[],
+    uniqueTags: [] as String[],
     loading: false as boolean,
     error: null as string | null
   }),
@@ -17,18 +17,22 @@ export const useParticipantsStore = defineStore('participants', {
       this.error = null
       try {
         const organisations = await fetchOrganisations()
+        this.setUniqueTags(organisations)
         this.organisations = organisations
-        this.filteredOrganisations = organisations
       } catch (error) {
         this.error = 'Failed to fetch organisations'
       } finally {
         this.loading = false
       }
     },
-    filterOrganisations(criteria: { [key: string]: any }) {
-      this.filteredOrganisations = this.organisations.filter((org) => {
-        return org.OrganisationName.includes(criteria.name)
+    setUniqueTags(organisations: Organisation[]) {
+      const tags = new Set<string>()
+      organisations.forEach((org) => {
+        org.Tags.forEach((tag) => tags.add(tag))
       })
+
+      this.uniqueTags = Array.from(tags)
+      console.log(this.uniqueTags)
     }
   }
 })

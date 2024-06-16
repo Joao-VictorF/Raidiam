@@ -30,7 +30,7 @@ const { floatingStyles } = useFloating(popoverBtn, popoverMenu, {
 
       <ChevronDownIcon
         :key="open.toString()"
-        :class="open ? 'rotate-180 transform' : ''"
+        :class="{ 'transform rotate-180': open }"
         class="ml-2 h-5 w-5 transition duration-150 ease-in-out"
         aria-hidden="true"
       />
