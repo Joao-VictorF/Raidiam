@@ -10,3 +10,9 @@ useHead({
   <Header />
   <RouterView class="my-8 lg:my-10 mx-8" />
 </template>
+
+<style>
+body {
+  background-color: #f5f5f5;
+}
+</style>
