@@ -6,6 +6,8 @@ import { useNavigationStore } from '@/stores/navigation'
 import { Breadcrumb, BreadcrumbsKeys } from '@/models/Breadcrumb'
 
 const route = useRoute()
+const router = useRouter()
+
 const navigationStore = useNavigationStore()
 const breadcrumbsMap = computed<Record<BreadcrumbsKeys, Breadcrumb>>(
   () => navigationStore.breadcrumbs
@@ -15,6 +17,17 @@ const breadcrumbsList = computed<Breadcrumb[]>(() => navigationStore.breadcrumbs
 const pageKey = computed<BreadcrumbsKeys>(() => route.meta?.key as BreadcrumbsKeys)
 const pageTitle = computed(() => breadcrumbsMap.value[pageKey.value]?.title ?? '-')
 const pageHeaderClasses = computed(() => route.meta.pageHeaderClasses)
+
+const navigateToBreadcrumbLink = (route: string) => {
+  if (route === '/') router.push(route)
+
+  const element = document.querySelector(route)
+  if (element) {
+    element.scrollIntoView({ behavior: 'smooth' })
+  } else {
+    router.push(route)
+  }
+}
 </script>
 
 <template>
@@ -30,13 +43,13 @@ const pageHeaderClasses = computed(() => route.meta.pageHeaderClasses)
               <template v-if="index > 0">
                 <ChevronRightIcon class="flex-shrink-0 h-5 w-5 text-gray-500" aria-hidden="true" />
               </template>
-              <RouterLink
-                :to="breadcrumb.route"
+              <button
+                @click.prevent="navigateToBreadcrumbLink(breadcrumb.route)"
                 class="text-sm font-medium text-gray-300 hover:text-white mr-1"
                 :class="{ 'ml-1': index > 0 }"
               >
                 {{ breadcrumb.title }}
-              </RouterLink>
+              </button>
             </div>
           </li>
         </ol>
