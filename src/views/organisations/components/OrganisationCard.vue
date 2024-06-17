@@ -12,6 +12,8 @@ interface ICardFields {
 }
 
 const props = defineProps<{ organisation: Organisation }>()
+const router = useRouter()
+
 const popoverBtnClasses =
   'text-source-code text-[12px] bg-raidiamPink bg-opacity-30 hover:bg-raidiamDarkBlue hover:bg-opacity-40 text-black w-full font-semibold'
 
@@ -36,11 +38,21 @@ const cardFields: ICardFields[] = [
     organisationProp: 'RegistrationNumber'
   }
 ]
+
+function openOrganisationPage() {
+  router.push({
+    name: 'OrganisationById',
+    params: {
+      id: props.organisation.OrganisationId
+    }
+  })
+}
 </script>
 
 <template>
   <div
     class="bg-white rounded-lg shadow-md px-6 py-8 text-source-code flex flex-col justify-start cursor-pointer hover:shadow-lg"
+    @click="openOrganisationPage()"
   >
     <div class="flex flex-col">
       <div class="flex justify-between gap-x-3">
