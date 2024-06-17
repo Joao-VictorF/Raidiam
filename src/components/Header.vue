@@ -2,28 +2,40 @@
 import { useRoute } from 'vue-router'
 import { ChevronRightIcon } from '@heroicons/vue/solid'
 
-import type Breadcrumb from '@/models/Breadcrumb'
-const route = useRoute()
+import { useNavigationStore } from '@/stores/navigation'
+import { Breadcrumb, BreadcrumbsKeys } from '@/models/Breadcrumb'
 
-const pageTitle = computed(() => route.name as string)
-const breadcrumbs = computed<Breadcrumb[]>(() => (route.meta.breadcrumbs as Breadcrumb[]) ?? [])
+const route = useRoute()
+const navigationStore = useNavigationStore()
+const breadcrumbsMap = computed<Record<BreadcrumbsKeys, Breadcrumb>>(
+  () => navigationStore.breadcrumbs
+)
+const breadcrumbsList = computed<Breadcrumb[]>(() => navigationStore.breadcrumbsArray())
+
+const pageKey = computed<BreadcrumbsKeys>(() => route.meta?.key as BreadcrumbsKeys)
+const pageTitle = computed(() => breadcrumbsMap.value[pageKey.value]?.title ?? '-')
+const pageHeaderClasses = computed(() => route.meta.pageHeaderClasses)
 </script>
 
 <template>
-  <div class="lg:flex lg:items-center lg:justify-between header-bg-gradient">
+  <div
+    class="lg:flex lg:items-center lg:justify-between header-bg-gradient"
+    :class="pageHeaderClasses"
+  >
     <div class="flex-1 min-w-0 p-4 py-6 flex flex-col justify-center">
       <nav class="flex mb-2" aria-label="Breadcrumb">
-        <ol role="list" class="flex items-center space-x-4">
-          <li v-for="(breadcrumb, index) in breadcrumbs" :key="index">
+        <ol v-if="breadcrumbsList.length > 1" role="list" class="flex items-center">
+          <li v-for="(breadcrumb, index) in breadcrumbsList" :key="index">
             <div class="flex items-center">
               <template v-if="index > 0">
                 <ChevronRightIcon class="flex-shrink-0 h-5 w-5 text-gray-500" aria-hidden="true" />
               </template>
               <RouterLink
                 :to="breadcrumb.route"
-                class="ml-4 text-sm font-medium text-gray-300 hover:text-white"
+                class="text-sm font-medium text-gray-300 hover:text-white mr-1"
+                :class="{ 'ml-1': index > 0 }"
               >
-                {{ breadcrumb.text }}
+                {{ breadcrumb.title }}
               </RouterLink>
             </div>
           </li>
