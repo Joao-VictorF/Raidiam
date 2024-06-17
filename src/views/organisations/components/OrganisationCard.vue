@@ -8,14 +8,15 @@ import OrganisationDomainRoleClaims from './OrganisationDomainRoleClaims.vue'
 
 interface ICardFields {
   label: String
-  organisationProp: string
+  value?: string
+  organisationProp?: string
 }
 
 const props = defineProps<{ organisation: Organisation }>()
 const router = useRouter()
 
 const popoverBtnClasses =
-  'text-source-code text-[12px] bg-raidiamPink bg-opacity-30 hover:bg-raidiamDarkBlue hover:bg-opacity-40 text-black w-full font-semibold'
+  'text-source-code text-[12px] bg-raidiamPink bg-opacity-30  hover:bg-opacity-50 text-black w-full font-semibold'
 
 const statusClasses = {
   [OrganisationStatus.Active]: 'bg-green-600',
@@ -36,6 +37,10 @@ const cardFields: ICardFields[] = [
   {
     label: 'Registration Number',
     organisationProp: 'RegistrationNumber'
+  },
+  {
+    label: 'Authorisation Servers',
+    value: props.organisation.AuthorisationServers.length.toString().padStart(2, '0')
   }
 ]
 
@@ -75,7 +80,9 @@ function openOrganisationPage() {
         class="flex items-center justify-between gap-x-2 border-b-2 pb-2 border-gray-200 text-gray-600 text-[12px]"
       >
         <p>{{ field.label }}</p>
-        <p class="font-bold">{{ organisation[field.organisationProp] ?? '—' }}</p>
+        <p class="font-bold">
+          {{ field.value ? field.value : organisation[field.organisationProp!] ?? '—' }}
+        </p>
       </div>
 
       <Popover btnTitle="Org. Domain Claims" :btnClasses="popoverBtnClasses" menuClasses="!w-fit">
