@@ -68,7 +68,7 @@ function openOrganisationPage() {
       </p>
     </div>
 
-    <div class="relative flex flex-col gap-y-2 mt-4">
+    <div class="flex flex-col gap-y-2 mt-4">
       <div
         v-for="field in cardFields"
         :key="`${field.label}`"
