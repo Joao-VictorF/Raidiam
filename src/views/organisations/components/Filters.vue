@@ -37,13 +37,16 @@ watch([selectedStatus, selectedTag, searchQuery], applyFilters)
 </script>
 
 <template>
-  <div class="mb-4 flex justify-between flex-wrap items-center gap-x-4">
+  <div
+    class="flex justify-between flex-wrap items-center gap-4 sticky w-screen -ml-8 lg:-ml-10 px-8 lg:px-10 top-0 py-5 bg-[#F5F5F5] shadow-none border"
+    style="z-index: 100"
+  >
     <input
       v-model="searchQuery"
       @input="applyFilters"
       type="text"
       placeholder="Search by Name, Registration ID or Registration Number"
-      class="px-4 py-2 placeholder:text-[14px] placeholder:text-gray-700 rounded-lg shadow-lg w-full sm:w-1/3 focus:outline-none h-[36px] mt-1"
+      class="px-4 py-2 placeholder:text-[14px] placeholder:text-gray-700 rounded-lg w-full sm:w-1/3 focus:outline-none h-[36px] mt-1"
     />
 
     <div class="flex gap-x-4 grow justify-end">

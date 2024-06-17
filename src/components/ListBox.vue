@@ -25,7 +25,7 @@ const { floatingStyles } = useFloating(listBoxBtn, listBoxOptions, {
     <div class="relative mt-1">
       <ListboxButton
         ref="listBoxBtn"
-        class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+        class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 sm:text-sm"
       >
         <span class="block truncate text-[14px]">
           <span class="font-semibold">{{ prefixText }}</span>
