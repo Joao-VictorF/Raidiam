@@ -6,8 +6,14 @@ export const useNavigationStore = defineStore('navigation', {
     breadcrumbs: {} as Record<BreadcrumbsKeys, Breadcrumb>
   }),
   actions: {
-    addBreadcrumb(breadcrumb: Breadcrumb) {
-      this.breadcrumbs[breadcrumb.key] = breadcrumb
+    addBreadcrumb(breadcrumb: Breadcrumb, position?: number) {
+      const entries = Object.entries(this.breadcrumbs)
+      if (position !== undefined && position >= 0 && position < entries.length) {
+        entries.splice(position, 0, [breadcrumb.key, breadcrumb])
+        this.breadcrumbs = Object.fromEntries(entries) as Record<BreadcrumbsKeys, Breadcrumb>
+      } else {
+        this.breadcrumbs[breadcrumb.key] = breadcrumb
+      }
     },
     updateBreadcrumb(key: BreadcrumbsKeys, data: Partial<Breadcrumb>) {
       const breadcrumb = this.breadcrumbs[key]
