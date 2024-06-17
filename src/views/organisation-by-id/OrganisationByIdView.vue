@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
+import AuthorisationServerCard from './components/AuthorisationServerCard.vue'
+
 import { useNavigationStore } from '@/stores/navigation'
 import { useParticipantsStore } from '@/stores/participants'
 
@@ -13,17 +14,45 @@ const participantsStore = useParticipantsStore()
 const organisation = ref<Organisation | undefined>()
 
 onMounted(() => {
+  navigationStore.addBreadcrumb(
+    {
+      key: BreadcrumbsKeys.ORGANISATIONS,
+      title: BreadcrumbsTitles.ORGANISATIONS,
+      route: '/'
+    },
+    0
+  )
+
   organisation.value = participantsStore.getById(route.params.id as String)
   navigationStore.updateBreadcrumb(BreadcrumbsKeys.ORGANISATION_BY_ID, {
     title: organisation.value?.OrganisationName as BreadcrumbsTitles
   })
+
+  navigationStore.addBreadcrumb({
+    key: BreadcrumbsKeys.AUTHORISATION_SERVERS,
+    title: BreadcrumbsTitles.AUTHORISATION_SERVERS,
+    route: '#authorisation-servers'
+  })
+})
+
+onBeforeUpdate(() => {
+  if (organisation.value) {
+    navigationStore.updateBreadcrumb(BreadcrumbsKeys.ORGANISATION_BY_ID, {
+      title: organisation.value?.OrganisationName as BreadcrumbsTitles
+    })
+  }
 })
 </script>
 
 <template>
   <div class="flex flex-col gap-y-3">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-      {{ organisation }}
+    <h1 class="text-[42px] text-source-code tracking-tighter font-medium">Authorisation Servers</h1>
+    <div id="authorisation-servers" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <AuthorisationServerCard
+        v-for="server in organisation?.AuthorisationServers"
+        :key="server.AuthorisationServerId"
+        :server="server"
+      />
     </div>
   </div>
 </template>
