@@ -33,6 +33,8 @@ onMounted(() => {
     title: BreadcrumbsTitles.AUTHORISATION_SERVERS,
     route: '#authorisation-servers'
   })
+
+  navigationStore.removeUntil(BreadcrumbsKeys.AUTHORISATION_SERVERS)
 })
 
 onBeforeUpdate(() => {

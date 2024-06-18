@@ -12,14 +12,16 @@ const navigationStore = useNavigationStore()
 const breadcrumbsMap = computed<Record<BreadcrumbsKeys, Breadcrumb>>(
   () => navigationStore.breadcrumbs
 )
-const breadcrumbsList = computed<Breadcrumb[]>(() => navigationStore.breadcrumbsArray())
+const breadcrumbsList = computed<Breadcrumb[]>(() =>
+  navigationStore.breadcrumbsArray().filter((item) => !item.hidden)
+)
 
 const pageKey = computed<BreadcrumbsKeys>(() => route.meta?.key as BreadcrumbsKeys)
 const pageTitle = computed(() => breadcrumbsMap.value[pageKey.value]?.title ?? '-')
 const pageHeaderClasses = computed(() => route.meta.pageHeaderClasses)
 
 const navigateToBreadcrumbLink = (route: string) => {
-  if (route === '/') router.push(route)
+  if (route.includes('/')) router.push(route)
 
   const element = document.querySelector(route)
   if (element) {

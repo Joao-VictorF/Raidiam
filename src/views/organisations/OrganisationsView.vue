@@ -1,11 +1,14 @@
 <script setup lang="ts">
+import { useNavigationStore } from '@/stores/navigation'
 import { useParticipantsStore } from '@/stores/participants'
 
 import Filters from './components/Filters.vue'
 import OrganisationCard from './components/OrganisationCard.vue'
 
 import { Organisation } from '@/models/Organisation'
+import { BreadcrumbsKeys } from '@/models/Breadcrumb'
 
+const navigationStore = useNavigationStore()
 const participantsStore = useParticipantsStore()
 
 const loading = computed<boolean>(() => participantsStore.loading)
@@ -19,7 +22,10 @@ const updateFilteredOrganisations = (filtered: Organisation[]) => {
 watchOnce(organisations, (result) => {
   filteredOrganisations.value = result
 })
-onMounted(() => participantsStore.loadOrganisations())
+onMounted(() => {
+  participantsStore.loadOrganisations()
+  navigationStore.removeUntil(BreadcrumbsKeys.ORGANISATIONS)
+})
 </script>
 
 <template>

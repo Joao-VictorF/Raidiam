@@ -19,4 +19,5 @@ export interface Breadcrumb {
   key: BreadcrumbsKeys
   title: BreadcrumbsTitles
   route: string
+  hidden?: boolean
 }
