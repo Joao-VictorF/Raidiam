@@ -34,6 +34,7 @@ const navigateToBreadcrumbLink = (route: string) => {
   <div
     class="lg:flex lg:items-center lg:justify-between header-bg-gradient"
     :class="pageHeaderClasses"
+    style="z-index: 101"
   >
     <div class="flex-1 min-w-0 p-4 py-6 flex flex-col justify-center">
       <nav class="flex mb-2" aria-label="Breadcrumb">

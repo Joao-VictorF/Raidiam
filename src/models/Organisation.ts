@@ -7,6 +7,7 @@ export enum OrganisationStatus {
   Pending = 'Pending',
   Withdrawn = 'Withdrawn'
 }
+
 export interface Organisation extends Record<string, any> {
   OrganisationId: string
   Status: OrganisationStatus

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { autoUpdate, flip, offset, shift, useFloating } from '@floating-ui/vue'
+import { autoUpdate, offset, shift, useFloating } from '@floating-ui/vue'
 import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
 import { ChevronDownIcon } from '@heroicons/vue/solid'
 
@@ -14,7 +14,7 @@ const popoverMenu = ref(null)
 
 const { floatingStyles } = useFloating(popoverBtn, popoverMenu, {
   placement: 'bottom',
-  middleware: [offset(10), flip(), shift()],
+  middleware: [offset(10), shift()],
   whileElementsMounted: autoUpdate
 })
 </script>
