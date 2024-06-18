@@ -33,6 +33,7 @@ const statusTextClass = function (status: AuthorisationServerCertificationStatus
           <th class="px-4 py-2">API Certification URI</th>
         </tr>
       </thead>
+
       <tbody>
         <tr class="border-b text-gray-600 text-[14px] text-left">
           <td
@@ -43,8 +44,8 @@ const statusTextClass = function (status: AuthorisationServerCertificationStatus
           >
             {{ Api.CertificationStatus ?? '—' }}
           </td>
-          <td class="px-4 py-2">{{ Api.CertificationStartDate }}</td>
-          <td class="px-4 py-2">{{ Api.CertificationExpirationDate }}</td>
+          <td class="px-4 py-2">{{ Api.CertificationStartDate ?? '—' }}</td>
+          <td class="px-4 py-2">{{ Api.CertificationExpirationDate ?? '—' }}</td>
           <td class="px-4 py-2">
             <a
               v-if="Api.ApiCertificationUri"

@@ -11,7 +11,16 @@ const route = useRoute()
 const navigationStore = useNavigationStore()
 const participantsStore = useParticipantsStore()
 
-const ApiResources = ref<ApiResource[]>()
+const ApiResources = ref<ApiResource[]>([])
+const searchTerm = ref('')
+
+const filteredApiResources = computed(() => {
+  if (!searchTerm.value) return ApiResources.value
+
+  return ApiResources.value.filter((api) =>
+    api.ApiFamilyType.toLowerCase().includes(searchTerm.value.toLowerCase())
+  )
+})
 
 onMounted(() => {
   const organisation = participantsStore.getById(route.params.id as String)
@@ -64,9 +73,16 @@ onMounted(() => {
   <div class="flex flex-col gap-y-3">
     <h1 class="text-[42px] text-source-code tracking-tighter font-medium">Api Resources</h1>
 
-    <template v-for="api in ApiResources" :key="api.ApiResourceId">
+    <input
+      v-model="searchTerm"
+      type="text"
+      placeholder="Search by Family Type"
+      class="mb-4 px-4 py-2 border rounded-md text-[14px] focus:outline-none"
+    />
+
+    <template v-for="api in filteredApiResources" :key="api.ApiResourceId">
       <Accordion
-        btn-classes="text-source-code text-[14px] bg-blue-500 bg-opacity-40 hover:bg-opacity-50 text-black w-full font-semibold"
+        btn-classes="text-source-code text-[14px] bg-blue-300 bg-opacity-40 hover:bg-opacity-60 text-black w-full font-semibold"
       >
         <template #title>
           <div class="flex items-center grow justify-between">
@@ -74,11 +90,11 @@ onMounted(() => {
             <div
               :class="{
                 'bg-green-600': api.FamilyComplete,
-                'bg-red-400': !api.FamilyComplete
+                'bg-orange-500': !api.FamilyComplete
               }"
               class="rounded-lg px-2 py-1 text-[10px] text-white"
             >
-              Api Familly {{ api.FamilyComplete ? 'Complete' : 'Incomplete' }}
+              Api Family {{ api.FamilyComplete ? 'Complete' : 'Incomplete' }}
             </div>
           </div>
         </template>
