@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { defineProps } from 'vue'
 import { OrganisationStatus } from '@/models/Organisation'
 import type { Organisation } from '@/models/Organisation'
 

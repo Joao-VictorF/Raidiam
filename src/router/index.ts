@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Organisations from '../views/organisations/OrganisationsView.vue'
 import OrganisationById from '@/views/organisation-by-id/OrganisationByIdView.vue'
+import ApiResources from '@/views/api-resources/ApiResources.vue'
 
 import { useNavigationStore } from '@/stores/navigation'
 import { BreadcrumbsKeys, BreadcrumbsTitles, Breadcrumb } from '@/models/Breadcrumb'
@@ -18,12 +19,22 @@ const router = createRouter({
       }
     },
     {
-      path: '/organisation/:id',
+      path: '/organisations/:id',
       name: 'OrganisationById',
       component: OrganisationById,
       meta: {
         key: BreadcrumbsKeys.ORGANISATION_BY_ID,
         title: '',
+        pageHeaderClasses: 'sticky top-0'
+      }
+    },
+    {
+      path: '/organisations/:id/s/:serverId/api-resources',
+      name: 'Api Resources',
+      component: ApiResources,
+      meta: {
+        key: BreadcrumbsKeys.API_RESOURCES,
+        title: BreadcrumbsTitles.API_RESOURCES,
         pageHeaderClasses: 'sticky top-0'
       }
     }

@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
 import { useParticipantsStore } from '@/stores/participants'
 
 import Filters from './components/Filters.vue'

@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import AuthorisationServerCertifications from './AuthorisationServerCertifications.vue'
-import type { AuthorisationServer } from '@models/AuthorisationServer'
+import type { AuthorisationServer } from '@/models/AuthorisationServer'
 
+const route = useRoute()
+const router = useRouter()
 const props = defineProps<{ server: AuthorisationServer }>()
 
 const _server = props.server
@@ -22,9 +24,9 @@ const features = computed(() =>
     },
     {
       name: `Auto Registration`,
-      href: _server.AutoRegistrationSupported
+      supported: _server.AutoRegistrationSupported
     }
-  ].sort((a, b) => b.supported - a.supported)
+  ].sort((a, b) => Number(b.supported) - Number(a.supported))
 )
 
 const links = computed(() =>
@@ -52,13 +54,16 @@ const links = computed(() =>
   ].filter((link) => link.href)
 )
 
-function formattedJson(obj) {
-  return JSON.stringify(obj, null, 4)
+function openApiResources() {
+  router.push(`${route.path}/s/${props.server.AuthorisationServerId}/api-resources`)
 }
 </script>
 
 <template>
-  <div class="flex flex-col justify-between gap-y-3 bg-white shadow-md rounded-lg p-6">
+  <div
+    class="flex flex-col justify-between gap-y-3 bg-white shadow-md rounded-lg p-6 cursor-pointer"
+    @click="openApiResources()"
+  >
     <!-- <div class="flex flex-col justify-between gap-y-3"> -->
     <div class="flex gap-x-3 items-center">
       <img
