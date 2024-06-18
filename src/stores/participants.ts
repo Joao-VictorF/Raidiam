@@ -30,7 +30,6 @@ export const useParticipantsStore = defineStore('participants', {
       })
 
       this.uniqueTags = Array.from(tags)
-      console.log(this.uniqueTags)
     },
     getById(id: String) {
       return this.organisations.find((organisation) => organisation.OrganisationId === id)

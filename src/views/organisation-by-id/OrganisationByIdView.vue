@@ -12,6 +12,16 @@ const navigationStore = useNavigationStore()
 const participantsStore = useParticipantsStore()
 
 const organisation = ref<Organisation | undefined>()
+const searchTerm = ref('')
+
+const filteredAuthorisationServers = computed(() => {
+  if (!searchTerm.value) {
+    return organisation.value?.AuthorisationServers ?? []
+  }
+  return (organisation.value?.AuthorisationServers ?? []).filter((server) =>
+    server.CustomerFriendlyName.toLowerCase().includes(searchTerm.value.toLowerCase())
+  )
+})
 
 onMounted(() => {
   navigationStore.addBreadcrumb(
@@ -49,9 +59,16 @@ onBeforeUpdate(() => {
 <template>
   <div class="flex flex-col gap-y-3">
     <h1 class="text-[42px] text-source-code tracking-tighter font-medium">Authorisation Servers</h1>
+    <input
+      v-model="searchTerm"
+      type="text"
+      placeholder="Search Authorisation Servers"
+      class="mb-4 px-4 py-2 border rounded-md text-[14px] focus:outline-none"
+    />
+
     <div id="authorisation-servers" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       <AuthorisationServerCard
-        v-for="server in organisation?.AuthorisationServers"
+        v-for="server in filteredAuthorisationServers"
         :key="server.AuthorisationServerId"
         :server="server"
       />
