@@ -31,6 +31,13 @@ onMounted(() => {
 <template>
   <div class="flex flex-col gap-y-3">
     <Filters :organisations="organisations" @filtered="updateFilteredOrganisations" />
+
+    <div v-if="filteredOrganisations.length === 0 && !loading">
+      <EmptyState>
+        <template #message> No organisation match your search.</template>
+      </EmptyState>
+    </div>
+
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
       <template v-if="loading">
         <LoadingCardSkeleton v-for="i in 12" :key="`loading-card-skeleton-${i}`" />

@@ -80,6 +80,12 @@ onMounted(() => {
       class="mb-4 px-4 py-2 border rounded-md text-[14px] focus:outline-none"
     />
 
+    <div v-if="filteredApiResources.length === 0">
+      <EmptyState>
+        <template #message> No Api's match your search.</template>
+      </EmptyState>
+    </div>
+
     <template v-for="api in filteredApiResources" :key="api.ApiResourceId">
       <Accordion
         btn-classes="text-source-code text-[14px] bg-blue-300 bg-opacity-40 hover:bg-opacity-60 text-black w-full font-semibold"
