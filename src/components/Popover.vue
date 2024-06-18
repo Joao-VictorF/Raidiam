@@ -7,6 +7,7 @@ defineProps<{
   btnTitle: String
   btnClasses: String
   menuClasses: String
+  disabled?: boolean
 }>()
 
 const popoverBtn = ref(null)
@@ -14,7 +15,7 @@ const popoverMenu = ref(null)
 
 const { floatingStyles } = useFloating(popoverBtn, popoverMenu, {
   placement: 'bottom',
-  middleware: [offset(10), shift()],
+  middleware: [offset(10), shift({ padding: 20 })],
   whileElementsMounted: autoUpdate
 })
 </script>
@@ -24,13 +25,17 @@ const { floatingStyles } = useFloating(popoverBtn, popoverMenu, {
     <PopoverButton
       ref="popoverBtn"
       class="group inline-flex items-center justify-between rounded-md px-3 py-2 text-[12px] focus:outline-none"
-      :class="btnClasses"
+      :class="[btnClasses, disabled ? '!bg-gray-100' : '']"
+      :disabled="disabled"
     >
-      <span>{{ btnTitle }}</span>
+      <span :class="{ 'text-gray-400': disabled }">{{ btnTitle }}</span>
 
       <ChevronDownIcon
         :key="open.toString()"
-        :class="{ 'transform rotate-180': open }"
+        :class="{
+          'transform rotate-180': open,
+          'text-gray-400': disabled
+        }"
         class="ml-2 h-5 w-5 transition duration-150 ease-in-out"
         aria-hidden="true"
       />

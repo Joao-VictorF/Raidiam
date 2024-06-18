@@ -15,7 +15,7 @@ const listBoxOptions = ref(null)
 
 const { floatingStyles } = useFloating(listBoxBtn, listBoxOptions, {
   placement: 'bottom-end',
-  middleware: [offset(10), flip(), shift()],
+  middleware: [offset(10), flip(), shift({ padding: 10 })],
   whileElementsMounted: autoUpdate
 })
 </script>
@@ -58,7 +58,10 @@ const { floatingStyles } = useFloating(listBoxBtn, listBoxOptions, {
             >
               <li
                 :class="[
-                  active ? 'bg-raidiamDarkBlue text-white' : 'text-gray-900',
+                  active && !selected
+                    ? 'bg-raidiamDarkBlue bg-opacity-80 text-white'
+                    : 'text-gray-900',
+                  selected ? 'bg-raidiamDarkBlue text-white' : 'text-gray-900',
                   'relative cursor-default select-none py-2 pl-10 pr-4'
                 ]"
               >

@@ -84,7 +84,12 @@ function openOrganisationPage() {
         </p>
       </div>
 
-      <Popover btnTitle="Org. Domain Claims" :btnClasses="popoverBtnClasses" menuClasses="!w-fit">
+      <Popover
+        btnTitle="Org. Domain Claims"
+        :btnClasses="popoverBtnClasses"
+        menuClasses="!w-fit"
+        :disabled="organisation.OrgDomainClaims?.length === 0"
+      >
         <OrganisationDomainClaims :OrgDomainClaims="organisation.OrgDomainClaims" />
       </Popover>
 
@@ -92,6 +97,7 @@ function openOrganisationPage() {
         btnTitle="Org. Domain Role Claims"
         :btnClasses="popoverBtnClasses"
         menuClasses="!w-fit"
+        :disabled="organisation.OrgDomainRoleClaims?.length === 0"
       >
         <OrganisationDomainRoleClaims :OrgDomainRoleClaims="organisation.OrgDomainRoleClaims" />
       </Popover>
