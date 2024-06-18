@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    Accordion: typeof import('./components/Accordion.vue')['default']
     Header: typeof import('./components/Header.vue')['default']
     ListBox: typeof import('./components/ListBox.vue')['default']
     LoadingCardSkeleton: typeof import('./components/LoadingCardSkeleton.vue')['default']
