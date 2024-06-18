@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AuthorisationServerCertifications from './AuthorisationServerCertifications.vue'
 import type { AuthorisationServer } from '@models/AuthorisationServer'
 
 const props = defineProps<{ server: AuthorisationServer }>()
@@ -96,22 +97,29 @@ function formattedJson(obj) {
     <!-- </div> -->
 
     <!-- Useful Links -->
-    <div
-      class="flex flex-wrap gap-x-4 pt-4 border-t-2 border-gray-500 border-opacity-20 text-[14px]"
-    >
-      <a
-        v-for="link in links"
-        :key="link.name"
-        :href="link.href"
-        class="text-blue-400 hover:underline cursor-pointer"
-        target="_blank"
-      >
-        {{ link.name }}
-      </a>
+    <div class="flex flex-col py-4 border-y-2 border-gray-500 border-opacity-20 text-[14px]">
+      <h1 class="font-semibold mb-2">Useful Links</h1>
+      <div class="flex flex-wrap gap-x-4">
+        <a
+          v-for="link in links"
+          :key="link.name"
+          :href="link.href"
+          class="text-blue-400 hover:underline cursor-pointer"
+          target="_blank"
+        >
+          * {{ link.name }}
+        </a>
+      </div>
     </div>
 
-    <pre class="whitespace-pre-wrap bg-gray-100 p-4 rounded">
-      {{ formattedJson(server?.AuthorisationServerCertifications[0]) }}
-    </pre>
+    <Popover
+      :btnTitle="`Authorisation Server Certifications (${server.AuthorisationServerCertifications.length})`"
+      btnClasses="text-source-code text-[12px] bg-raidiamPink bg-opacity-30 hover:bg-opacity-50 text-black w-full font-semibold"
+      menuClasses="!w-[50vw]"
+    >
+      <AuthorisationServerCertifications
+        :Certifications="server.AuthorisationServerCertifications"
+      />
+    </Popover>
   </div>
 </template>
