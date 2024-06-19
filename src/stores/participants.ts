@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import { fetchOrganisations } from '@/services/participantsService'
-import { Organisation, OrganisationStatus, StatusCount } from '@/models/Organisation'
+import { Organisation, OrganisationStatus } from '@/models/Organisation'
+import { AuthorisationServerCertification } from '@/models/AuthorisationServerCertification'
+import { AuthorisationServer } from '@/models/AuthorisationServer'
 
 export const useParticipantsStore = defineStore('participants', {
   state: () => ({
@@ -10,30 +12,35 @@ export const useParticipantsStore = defineStore('participants', {
     error: null as string | null
   }),
   getters: {
-    getStatusesCount: (state): StatusCount => {
+    getDashboardData: (state) => {
       const statusCount = {
         [OrganisationStatus.Active]: 0,
         [OrganisationStatus.Pending]: 0,
         [OrganisationStatus.Withdrawn]: 0
       }
 
-      state.organisations.forEach((org) => {
-        statusCount[org.Status]++
-      })
-
-      return {
-        labels: [
-          OrganisationStatus.Active,
-          OrganisationStatus.Pending,
-          OrganisationStatus.Withdrawn
-        ],
-        values: [statusCount.Active, statusCount.Pending, statusCount.Withdrawn]
-      }
-    },
-    getOrganisationsByState: (state) => {
       const states: Record<string, number> = {}
 
-      state.organisations.forEach((org) => {
+      let totalAuthServers = 0
+      const featureSupport = {
+        Ciba: 0,
+        DCR: 0,
+        Redirect: 0,
+        AutoRegistration: 0
+      }
+
+      const certifications: Record<string, number> = {}
+      const apiResourceCertStatus: Record<string, number> = {}
+      const familyCompleteCount = {
+        Complete: 0,
+        Incomplete: 0
+      }
+
+      state.organisations.forEach((org: Organisation) => {
+        // Status count
+        statusCount[org.Status]++
+
+        // State count
         const state = org.City?.split(', ')[1]?.toUpperCase()
         if (state) {
           if (!states[state]) {
@@ -41,29 +48,76 @@ export const useParticipantsStore = defineStore('participants', {
           }
           states[state]++
         }
-      })
-      return states
-    },
-    getAuthorisationServersFeatureSupport: (state) => {
-      let total = 0
-      const support = {
-        Ciba: 0,
-        DCR: 0,
-        Redirect: 0
-      }
 
-      state.organisations.forEach((org) => {
-        org.AuthorisationServers.forEach((server) => {
-          total++
-          if (server.SupportsCiba) support.Ciba++
-          if (server.SupportsDCR) support.DCR++
-          if (server.SupportsRedirect) support.Redirect++
+        // Authorisation server data
+        org.AuthorisationServers.forEach((server: AuthorisationServer) => {
+          totalAuthServers++
+
+          if (server.SupportsCiba) featureSupport.Ciba++
+          if (server.SupportsDCR) featureSupport.DCR++
+          if (server.SupportsRedirect) featureSupport.Redirect++
+          if (server.AutoRegistrationSupported) featureSupport.AutoRegistration++
+
+          // Certification data
+          server.AuthorisationServerCertifications.forEach(
+            (cert: AuthorisationServerCertification) => {
+              const key = `${cert.ProfileType}:${cert.Status}`
+              if (!certifications[key]) {
+                certifications[key] = 0
+              }
+              certifications[key]++
+            }
+          )
+
+          // Certification status count
+          server.ApiResources.forEach((resource) => {
+            const apiStatus = resource.CertificationStatus
+
+            // API Resource Certification status count
+            if (!apiResourceCertStatus[apiStatus]) {
+              apiResourceCertStatus[apiStatus] = 0
+            }
+            apiResourceCertStatus[apiStatus]++
+
+            // Family complete count
+            if (resource.FamilyComplete) {
+              familyCompleteCount.Complete++
+            } else {
+              familyCompleteCount.Incomplete++
+            }
+          })
         })
       })
 
-      return { total, featureSupport: support }
+      return {
+        statusCount: {
+          labels: [
+            OrganisationStatus.Active,
+            OrganisationStatus.Pending,
+            OrganisationStatus.Withdrawn
+          ],
+          values: [statusCount.Active, statusCount.Pending, statusCount.Withdrawn]
+        },
+        organisationsByState: states,
+        authorisationServersFeatureSupport: {
+          total: totalAuthServers,
+          featureSupport: featureSupport
+        },
+        certifications,
+        familyCompleteCount: {
+          labels: ['Complete', 'Incomplete'],
+          values: [familyCompleteCount.Complete, familyCompleteCount.Incomplete]
+        },
+        apiResourceCertStatus: {
+          labels: Object.keys(apiResourceCertStatus).filter((status) => status !== 'null'),
+          values: Object.values(apiResourceCertStatus).filter(
+            (_, index) => Object.keys(apiResourceCertStatus)[index] !== 'null'
+          )
+        }
+      }
     }
   },
+
   actions: {
     async loadOrganisations() {
       this.loading = true
