@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { DoughnutChart, useDoughnutChart } from 'vue-chart-3'
 import ChartDataLabels from 'chartjs-plugin-datalabels'
+import type { ChartData } from 'chart.js'
 
 interface Props {
   title?: string
-  dataValues: Array
+  dataValues: number[]
   dataLabels: string[]
   dataColors?: string[]
 }
@@ -25,7 +26,7 @@ const chartData = computed<ChartData<'doughnut'>>(() => ({
   ]
 }))
 
-const options = computed<ChartOptions<'doughnut'>>(() => ({
+const options = computed(() => ({
   plugins: {
     legend: {
       position: 'bottom'
@@ -35,8 +36,8 @@ const options = computed<ChartOptions<'doughnut'>>(() => ({
       text: props.title
     },
     datalabels: {
-      formatter: (value, ctx) => {
-        const datapoints = ctx.chart.data.datasets[0].data
+      formatter: (value: any, ctx: any) => {
+        const datapoints = ctx.chart.data.datasets[0].data as number[]
         const total = datapoints.reduce((total, datapoint) => total + datapoint, 0)
         const percentage = (value / total) * 100
         return percentage > 0 ? percentage.toFixed(2) + '%' : ''
