@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import PieChart from './components/PieChart.vue'
+import BarChart from './components/BarChart.vue'
 import { useParticipantsStore } from '@/stores/participants'
 
 import { Organisation, StatusCount } from '@/models/Organisation'
@@ -8,7 +9,11 @@ const participantsStore = useParticipantsStore()
 
 const loading = computed<boolean>(() => participantsStore.loading)
 const organisations = computed<Organisation[]>(() => participantsStore.organisations)
+
 const statusesCount = computed<StatusCount>(() => participantsStore.getStatusesCount)
+const organisationsByState = computed<Record<string, number>>(
+  () => participantsStore.getOrganisationsByState
+)
 
 onMounted(() => {
   if (!organisations.value || organisations.value.length === 0) {
@@ -29,6 +34,14 @@ onMounted(() => {
           :data-values="statusesCount.values"
           :data-labels="statusesCount.labels"
           :data-colors="['#42b983', '#ffcc00', '#ffa07a']"
+        />
+      </div>
+
+      <div class="bg-gray-200 rounded-lg shadow-md p-6">
+        <h1 class="text-[16px] font-semibold mb-4">Organisations By State</h1>
+        <BarChart
+          :data-values="Object.values(organisationsByState)"
+          :data-labels="Object.keys(organisationsByState)"
         />
       </div>
     </div>

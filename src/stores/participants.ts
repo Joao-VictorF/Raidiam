@@ -29,6 +29,20 @@ export const useParticipantsStore = defineStore('participants', {
         ],
         values: [statusCount.Active, statusCount.Pending, statusCount.Withdrawn]
       }
+    },
+    getOrganisationsByState: (state) => {
+      const states: Record<string, number> = {}
+
+      state.organisations.forEach((org) => {
+        const state = org.City?.split(', ')[1]?.toUpperCase()
+        if (state) {
+          if (!states[state]) {
+            states[state] = 0
+          }
+          states[state]++
+        }
+      })
+      return states
     }
   },
   actions: {
