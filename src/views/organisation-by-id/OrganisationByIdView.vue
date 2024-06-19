@@ -38,13 +38,7 @@ onMounted(() => {
     title: organisation.value?.OrganisationName as BreadcrumbsTitles
   })
 
-  navigationStore.addBreadcrumb({
-    key: BreadcrumbsKeys.AUTHORISATION_SERVERS,
-    title: BreadcrumbsTitles.AUTHORISATION_SERVERS,
-    route: '#authorisation-servers'
-  })
-
-  navigationStore.removeUntil(BreadcrumbsKeys.AUTHORISATION_SERVERS)
+  navigationStore.removeUntil(BreadcrumbsKeys.ORGANISATION_BY_ID)
 })
 
 onBeforeUpdate(() => {

@@ -45,19 +45,12 @@ onMounted(() => {
     },
     1
   )
-  navigationStore.addBreadcrumb(
-    {
-      key: BreadcrumbsKeys.AUTHORISATION_SERVERS,
-      title: BreadcrumbsTitles.AUTHORISATION_SERVERS,
-      route: `/organisations/${route.params.id}`
-    },
-    2
-  )
+
   navigationStore.addBreadcrumb(
     {
       key: 'temp-api-resources' as BreadcrumbsKeys,
       title: BreadcrumbsTitles.API_RESOURCES,
-      route: `#api-resources`
+      route: ``
     },
     3
   )

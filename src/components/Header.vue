@@ -19,6 +19,7 @@ const breadcrumbsList = computed<Breadcrumb[]>(() =>
 const pageKey = computed<BreadcrumbsKeys>(() => route.meta?.key as BreadcrumbsKeys)
 const pageTitle = computed(() => breadcrumbsMap.value[pageKey.value]?.title ?? '-')
 const pageHeaderClasses = computed(() => route.meta.pageHeaderClasses)
+const isOrganisationsPage = computed(() => route.path == '/')
 const isDashboardPage = computed(() => route.path.includes('/dashboard'))
 
 const navigateToBreadcrumbLink = (route: string) => {
@@ -69,7 +70,7 @@ const navigateToBreadcrumbLink = (route: string) => {
         </h2>
 
         <RouterLink
-          v-if="!isDashboardPage"
+          v-if="isOrganisationsPage"
           to="/dashboard"
           class="flex items-center gap-x-2 text-white pb-1 hover:border-b-2 border-white"
         >
