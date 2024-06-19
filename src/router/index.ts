@@ -1,7 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Organisations from '../views/organisations/OrganisationsView.vue'
-import OrganisationById from '@/views/organisation-by-id/OrganisationByIdView.vue'
+
+import Dashboard from '@/views/dashboard/DashboardView.vue'
 import ApiResources from '@/views/api-resources/ApiResources.vue'
+import Organisations from '@/views/organisations/OrganisationsView.vue'
+import OrganisationById from '@/views/organisation-by-id/OrganisationByIdView.vue'
 
 import { useNavigationStore } from '@/stores/navigation'
 import { BreadcrumbsKeys, BreadcrumbsTitles, Breadcrumb } from '@/models/Breadcrumb'
@@ -16,6 +18,15 @@ const router = createRouter({
       meta: {
         key: BreadcrumbsKeys.ORGANISATIONS,
         title: BreadcrumbsTitles.ORGANISATIONS
+      }
+    },
+    {
+      path: '/dashboard',
+      name: 'Dashboard',
+      component: Dashboard,
+      meta: {
+        key: BreadcrumbsKeys.DASHBOARD,
+        title: BreadcrumbsTitles.DASHBOARD
       }
     },
     {

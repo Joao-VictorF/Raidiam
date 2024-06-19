@@ -1,4 +1,5 @@
 export enum BreadcrumbsKeys {
+  DASHBOARD = 'dashboard',
   ORGANISATIONS = 'organisations',
   ORGANISATION_BY_ID = 'organisation-by-id',
   AUTHORISATION_SERVERS = 'authorisation-servers',
@@ -8,6 +9,7 @@ export enum BreadcrumbsKeys {
 }
 
 export enum BreadcrumbsTitles {
+  DASHBOARD = 'Dashboard',
   ORGANISATIONS = 'Organisations',
   AUTHORISATION_SERVERS = 'Authorisation Servers',
   API_RESOURCES = 'API Resources',

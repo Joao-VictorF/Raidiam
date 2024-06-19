@@ -6,7 +6,7 @@ import Filters from './components/Filters.vue'
 import OrganisationCard from './components/OrganisationCard.vue'
 
 import { Organisation } from '@/models/Organisation'
-import { BreadcrumbsKeys } from '@/models/Breadcrumb'
+import { BreadcrumbsKeys, BreadcrumbsTitles } from '@/models/Breadcrumb'
 
 const navigationStore = useNavigationStore()
 const participantsStore = useParticipantsStore()
@@ -24,7 +24,12 @@ watchOnce(organisations, (result) => {
 })
 onMounted(() => {
   participantsStore.loadOrganisations()
-  navigationStore.removeUntil(BreadcrumbsKeys.ORGANISATIONS)
+  navigationStore.clearBreadcrumbs()
+  navigationStore.addBreadcrumb({
+    key: BreadcrumbsKeys.ORGANISATIONS,
+    title: BreadcrumbsTitles.ORGANISATIONS,
+    route: '/'
+  })
 })
 </script>
 

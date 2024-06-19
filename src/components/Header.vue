@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-import { ChevronRightIcon } from '@heroicons/vue/solid'
+import { ChevronRightIcon, ExternalLinkIcon, ArrowLeftIcon } from '@heroicons/vue/solid'
 
 import { useNavigationStore } from '@/stores/navigation'
 import { Breadcrumb, BreadcrumbsKeys } from '@/models/Breadcrumb'
@@ -19,6 +19,7 @@ const breadcrumbsList = computed<Breadcrumb[]>(() =>
 const pageKey = computed<BreadcrumbsKeys>(() => route.meta?.key as BreadcrumbsKeys)
 const pageTitle = computed(() => breadcrumbsMap.value[pageKey.value]?.title ?? '-')
 const pageHeaderClasses = computed(() => route.meta.pageHeaderClasses)
+const isDashboardPage = computed(() => route.path.includes('/dashboard'))
 
 const navigateToBreadcrumbLink = (route: string) => {
   if (route.includes('/')) router.push(route)
@@ -57,9 +58,21 @@ const navigateToBreadcrumbLink = (route: string) => {
           </li>
         </ol>
       </nav>
-      <h2 class="text-2xl font-bold text-white text-arvo sm:text-3xl sm:truncate">
-        {{ pageTitle }}
-      </h2>
+
+      <div class="flex justify-between items-center">
+        <h2 class="text-2xl font-bold text-white text-arvo sm:text-3xl sm:truncate">
+          {{ pageTitle }}
+        </h2>
+
+        <RouterLink
+          v-if="!isDashboardPage"
+          to="/dashboard"
+          class="flex items-center gap-x-2 text-white pb-1 hover:border-b-2 border-white"
+        >
+          Dashboard
+          <ExternalLinkIcon class="text-white w-5 h-5" />
+        </RouterLink>
+      </div>
     </div>
   </div>
 </template>
