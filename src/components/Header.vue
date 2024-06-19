@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-import { ChevronRightIcon, ExternalLinkIcon, ArrowLeftIcon } from '@heroicons/vue/solid'
+import { ChevronRightIcon, ExternalLinkIcon } from '@heroicons/vue/solid'
 
 import { useNavigationStore } from '@/stores/navigation'
 import { Breadcrumb, BreadcrumbsKeys } from '@/models/Breadcrumb'
