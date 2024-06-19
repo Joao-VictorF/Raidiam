@@ -15,7 +15,7 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-  <div class="bg-white w-full rounded-lg shadow-md px-6 py-8">
+  <div class="bg-white w-full rounded-lg shadow-md px-6 py-8 loading-card-skeleton">
     <div class="animate-pulse">
       <!-- Title -->
       <div v-if="showTitle" class="h-6 bg-gray-300 rounded w-1/2 mb-4"></div>
