@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useRoute } from 'vue-router'
-import { ChevronRightIcon, ExternalLinkIcon } from '@heroicons/vue/solid'
+import { ChevronRightIcon, ExternalLinkIcon, ArrowLeftIcon } from '@heroicons/vue/solid'
 
 import { useNavigationStore } from '@/stores/navigation'
 import { Breadcrumb, BreadcrumbsKeys } from '@/models/Breadcrumb'
@@ -39,6 +39,10 @@ const navigateToBreadcrumbLink = (route: string) => {
     :class="pageHeaderClasses"
     style="z-index: 101"
   >
+    <button v-if="isDashboardPage" @click="router.back()" class="ml-4 mt-1">
+      <ArrowLeftIcon class="w-5 h-5 text-white" />
+    </button>
+
     <div class="flex-1 min-w-0 p-4 py-6 flex flex-col justify-center">
       <nav class="flex mb-2" aria-label="Breadcrumb">
         <ol v-if="breadcrumbsList.length > 1" role="list" class="flex items-center">

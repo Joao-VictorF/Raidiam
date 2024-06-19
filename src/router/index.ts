@@ -26,7 +26,8 @@ const router = createRouter({
       component: Dashboard,
       meta: {
         key: BreadcrumbsKeys.DASHBOARD,
-        title: BreadcrumbsTitles.DASHBOARD
+        title: BreadcrumbsTitles.DASHBOARD,
+        pageHeaderClasses: 'sticky top-0'
       }
     },
     {
