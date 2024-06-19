@@ -13,7 +13,8 @@ const chartData = computed(() => ({
   datasets: [
     {
       data: props.dataValues,
-      borderWidth: 0
+      borderWidth: 0,
+      backgroundColor: props.dataColors
     }
   ]
 }))
@@ -21,7 +22,14 @@ const chartData = computed(() => ({
 const options = computed(() => ({
   plugins: {
     responsive: true,
-    legend: false
+    legend: false,
+    datalabels: {
+      color: '#2e2e2e',
+      font: {
+        size: 16,
+        weight: '500'
+      }
+    }
   }
 }))
 

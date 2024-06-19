@@ -20,8 +20,8 @@ const chartData = computed<ChartData<'doughnut'>>(() => ({
   datasets: [
     {
       data: props.dataValues,
-      backgroundColor: props.dataColors,
-      borderWidth: 0
+      borderWidth: 0,
+      backgroundColor: props.dataColors
     }
   ]
 }))

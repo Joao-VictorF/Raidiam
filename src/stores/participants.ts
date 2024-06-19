@@ -43,6 +43,25 @@ export const useParticipantsStore = defineStore('participants', {
         }
       })
       return states
+    },
+    getAuthorisationServersFeatureSupport: (state) => {
+      let total = 0
+      const support = {
+        Ciba: 0,
+        DCR: 0,
+        Redirect: 0
+      }
+
+      state.organisations.forEach((org) => {
+        org.AuthorisationServers.forEach((server) => {
+          total++
+          if (server.SupportsCiba) support.Ciba++
+          if (server.SupportsDCR) support.DCR++
+          if (server.SupportsRedirect) support.Redirect++
+        })
+      })
+
+      return { total, featureSupport: support }
     }
   },
   actions: {
