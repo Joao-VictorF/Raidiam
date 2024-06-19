@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { fetchOrganisations } from '@/services/participantsService'
-import type { Organisation } from '@/models/Organisation'
+import { Organisation, OrganisationStatus, StatusCount } from '@/models/Organisation'
 
 export const useParticipantsStore = defineStore('participants', {
   state: () => ({
@@ -9,6 +9,28 @@ export const useParticipantsStore = defineStore('participants', {
     loading: false as boolean,
     error: null as string | null
   }),
+  getters: {
+    getStatusesCount: (state): StatusCount => {
+      const statusCount = {
+        [OrganisationStatus.Active]: 0,
+        [OrganisationStatus.Pending]: 0,
+        [OrganisationStatus.Withdrawn]: 0
+      }
+
+      state.organisations.forEach((org) => {
+        statusCount[org.Status]++
+      })
+
+      return {
+        labels: [
+          OrganisationStatus.Active,
+          OrganisationStatus.Pending,
+          OrganisationStatus.Withdrawn
+        ],
+        values: [statusCount.Active, statusCount.Pending, statusCount.Withdrawn]
+      }
+    }
+  },
   actions: {
     async loadOrganisations() {
       this.loading = true

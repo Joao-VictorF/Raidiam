@@ -8,6 +8,11 @@ export enum OrganisationStatus {
   Withdrawn = 'Withdrawn'
 }
 
+export interface StatusCount {
+  labels: OrganisationStatus[]
+  values: number[]
+}
+
 export interface Organisation extends Record<string, any> {
   OrganisationId: string
   Status: OrganisationStatus
