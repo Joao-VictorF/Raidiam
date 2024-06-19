@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import PieChart from './components/PieChart.vue'
 import BarChart from './components/BarChart.vue'
+import DashboardCard from './components/DashboardCard.vue'
+
 import { useParticipantsStore } from '@/stores/participants'
 
 import { Organisation } from '@/models/Organisation'
@@ -28,28 +30,27 @@ onMounted(() => {
       <LoadingCardSkeleton v-for="i in 12" :key="`loading-card-skeleton-${i}`" />
     </div>
     <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8">
-      <div class="col-span-1 bg-gray-200 rounded-lg shadow-md p-6">
-        <h1 class="text-[16px] font-semibold mb-4">Organisations Status</h1>
+      <h1 class="col-span-3 text-3xl font-semibold">Organisations</h1>
+      <DashboardCard title="Organisations Status">
         <PieChart
           :data-values="dashboardData.statusCount.values"
           :data-labels="dashboardData.statusCount.labels"
           :data-colors="['#42b983', '#ffcc00', '#ffa07a']"
         />
-      </div>
+      </DashboardCard>
 
-      <div class="col-span-1 lg:col-span-2 bg-gray-200 rounded-lg shadow-md p-6">
-        <h1 class="text-[16px] font-semibold mb-4">Organisations By State</h1>
+      <DashboardCard title="Organisations By State" columns-classes="col-span-1 lg:col-span-2">
         <BarChart
           :data-values="Object.values(dashboardData.organisationsByState)"
           :data-labels="Object.keys(dashboardData.organisationsByState)"
         />
-      </div>
+      </DashboardCard>
 
-      <div class="col-span-1 bg-gray-200 rounded-lg shadow-md p-6">
-        <h1 class="text-[16px] font-semibold mb-2">Features Support in Authorisation Servers</h1>
-        <p class="text-[14px] mb-4">
-          Total Auth. Servers: {{ dashboardData.authorisationServersFeatureSupport.total }}
-        </p>
+      <h1 class="col-span-3 text-3xl font-semibold">Authorisation Servers</h1>
+      <DashboardCard
+        title="Features Support in Authorisation Servers"
+        :subtitle="`Total Auth. Servers: ${dashboardData.authorisationServersFeatureSupport.total}`"
+      >
         <BarChart
           :data-values="
             Object.values(dashboardData.authorisationServersFeatureSupport.featureSupport)
@@ -57,37 +58,37 @@ onMounted(() => {
           :data-labels="
             Object.keys(dashboardData.authorisationServersFeatureSupport.featureSupport)
           "
-          :data-colors="['#1abc9c', '#e67e22', '#2980b9']"
+          :data-colors="['#1abc9c', '#e67e22', '#2980b9', '#42b983']"
         />
-      </div>
+      </DashboardCard>
 
-      <div class="col-span-1 bg-gray-200 rounded-lg shadow-md p-6">
-        <h1 class="text-[16px] font-semibold mb-2">Authorisation Server Certifications</h1>
-        <p class="text-[14px] mb-4">Total Auth. Servers: {{ totalCertifications }}</p>
+      <DashboardCard
+        title="Authorisation Server Certifications"
+        :subtitle="`Total Auth. Servers Certifications: ${totalCertifications}`"
+      >
         <BarChart
           :data-values="Object.values(dashboardData.certifications)"
           :data-labels="Object.keys(dashboardData.certifications)"
           :data-colors="['#42b983', '#ffcc00', '#ffa07a', '#c3a1e6', '#f78da7', '#8ecae6']"
         />
-      </div>
+      </DashboardCard>
 
-      <div class="bg-gray-200 rounded-lg shadow-md p-6">
-        <h1 class="text-[16px] font-semibold mb-4">API Family Completion Status</h1>
+      <h1 class="col-span-3 text-3xl font-semibold">API Resources</h1>
+      <DashboardCard title="API Family Completion Status">
         <PieChart
           :data-values="dashboardData.familyCompleteCount.values"
           :data-labels="dashboardData.familyCompleteCount.labels"
           :data-colors="['#42b983', '#ffa07a']"
         />
-      </div>
+      </DashboardCard>
 
-      <div class="bg-gray-200 rounded-lg shadow-md p-6">
-        <h1 class="text-[16px] font-semibold mb-4">API Resources Certification Status</h1>
+      <DashboardCard title="API Resources Certification Status">
         <PieChart
           :data-values="dashboardData.apiResourceCertStatus.values"
           :data-labels="dashboardData.apiResourceCertStatus.labels"
-          :data-colors="['#8ecae6', '#ffa07a', '#f78da7', '#66d154', '#ffcc00']"
+          :data-colors="['#8ecae6', '#ffa07a', '#f78da7', '#42b983', '#ffcc00']"
         />
-      </div>
+      </DashboardCard>
     </div>
   </div>
 </template>
