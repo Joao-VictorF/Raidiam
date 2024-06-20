@@ -48,7 +48,6 @@ describe('Org. Authorisation Servers Page', () => {
     const searchTerm = organisation.AuthorisationServers[0].CustomerFriendlyName
     cy.get(SELECTORS.searchInput).clear()
     cy.get(SELECTORS.searchInput).type(searchTerm)
-
     cy.get(SELECTORS.authorisationServerCard).should('have.length', 1)
     cy.get(SELECTORS.authorisationServerCard).should('contain', searchTerm)
   })
@@ -57,8 +56,44 @@ describe('Org. Authorisation Servers Page', () => {
     const searchTerm = 'Nonexistent Authorisation Server'
     cy.get(SELECTORS.searchInput).clear()
     cy.get(SELECTORS.searchInput).type(searchTerm)
-
     cy.get(SELECTORS.authorisationServerCard).should('have.length', 0)
     cy.contains(SELECTORS.noResultsMessage).should('be.visible')
+  })
+
+  it('should check feature support indicators in authorisation server card', () => {
+    const server = organisation.AuthorisationServers[0]
+    cy.get(SELECTORS.authorisationServerCard)
+      .first()
+      .within(() => {
+        if (server.SupportsDCR) {
+          cy.contains('Support DCR').should('have.class', 'bg-green-200 text-green-800')
+        } else {
+          cy.contains("Don't Support DCR").should('have.class', 'bg-red-200 text-red-800')
+        }
+
+        if (server.SupportsCiba) {
+          cy.contains('Support CIBA').should('have.class', 'bg-green-200 text-green-800')
+        } else {
+          cy.contains("Don't Support CIBA").should('have.class', 'bg-red-200 text-red-800')
+        }
+
+        if (server.SupportsRedirect) {
+          cy.contains('Support Redirect').should('have.class', 'bg-green-200 text-green-800')
+        } else {
+          cy.contains("Don't Support Redirect").should('have.class', 'bg-red-200 text-red-800')
+        }
+
+        if (server.AutoRegistrationSupported) {
+          cy.contains('Support Auto Registration').should(
+            'have.class',
+            'bg-green-200 text-green-800'
+          )
+        } else {
+          cy.contains("Don't Support Auto Registration").should(
+            'have.class',
+            'bg-red-200 text-red-800'
+          )
+        }
+      })
   })
 })
