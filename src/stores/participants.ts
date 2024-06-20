@@ -1,18 +1,27 @@
 import { defineStore } from 'pinia'
 import { fetchOrganisations } from '@/services/participantsService'
+
+import { DashboardData } from '@/models/Dashboard'
+import { AuthorisationServer } from '@/models/AuthorisationServer'
 import { Organisation, OrganisationStatus } from '@/models/Organisation'
 import { AuthorisationServerCertification } from '@/models/AuthorisationServerCertification'
-import { AuthorisationServer } from '@/models/AuthorisationServer'
 
 export const useParticipantsStore = defineStore('participants', {
   state: () => ({
     organisations: [] as Organisation[],
     uniqueTags: [] as String[],
     loading: false as boolean,
-    error: null as string | null
+    error: null as string | null,
+
+    // e2e test related
+    dashboardData: {} as DashboardData
   }),
   getters: {
-    getDashboardData: (state) => {
+    getDashboardData: (state): DashboardData => {
+      if (window.Cypress) {
+        return state.dashboardData
+      }
+
       const statusCount = {
         [OrganisationStatus.Active]: 0,
         [OrganisationStatus.Pending]: 0,

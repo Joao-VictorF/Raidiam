@@ -17,11 +17,14 @@ const totalCertifications = computed(() =>
   Object.values(dashboardData.value.certifications).reduce((a, b) => a + b, 0)
 )
 
-onMounted(() => {
+function setState() {
   if (!organisations.value || organisations.value.length === 0) {
     participantsStore.loadOrganisations()
   }
-})
+}
+
+onMounted(() => setState())
+watchEffect(() => setState())
 </script>
 
 <template>
@@ -29,9 +32,10 @@ onMounted(() => {
     <div v-if="loading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 gap-4">
       <LoadingCardSkeleton v-for="i in 12" :key="`loading-card-skeleton-${i}`" />
     </div>
+
     <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-8">
       <h1 class="col-span-3 text-3xl font-semibold">Organisations</h1>
-      <DashboardCard title="Organisations Status">
+      <DashboardCard id="organisations-status" title="Organisations Status">
         <PieChart
           :data-values="dashboardData.statusCount.values"
           :data-labels="dashboardData.statusCount.labels"
@@ -39,7 +43,11 @@ onMounted(() => {
         />
       </DashboardCard>
 
-      <DashboardCard title="Organisations By State" columns-classes="col-span-1 lg:col-span-2">
+      <DashboardCard
+        id="organisations-by-state"
+        title="Organisations By State"
+        columns-classes="col-span-1 lg:col-span-2"
+      >
         <BarChart
           :data-values="Object.values(dashboardData.organisationsByState)"
           :data-labels="Object.keys(dashboardData.organisationsByState)"
@@ -48,8 +56,9 @@ onMounted(() => {
 
       <h1 class="col-span-3 text-3xl font-semibold">Authorisation Servers</h1>
       <DashboardCard
+        id="authorisation-servers-feature-support"
         title="Features Support in Authorisation Servers"
-        :subtitle="`Total Auth. Servers: ${dashboardData.authorisationServersFeatureSupport.total}`"
+        :subtitle="`Total Auth. Servers: ${dashboardData.authorisationServersFeatureSupport.total ?? 0}`"
       >
         <BarChart
           :data-values="
@@ -63,6 +72,7 @@ onMounted(() => {
       </DashboardCard>
 
       <DashboardCard
+        id="authorisation-servers-certifications"
         title="Authorisation Server Certifications"
         :subtitle="`Total Auth. Servers Certifications: ${totalCertifications}`"
       >
@@ -74,7 +84,7 @@ onMounted(() => {
       </DashboardCard>
 
       <h1 class="col-span-3 text-3xl font-semibold">API Resources</h1>
-      <DashboardCard title="API Family Completion Status">
+      <DashboardCard id="api-resources-family-completion" title="API Family Completion Status">
         <PieChart
           :data-values="dashboardData.familyCompleteCount.values"
           :data-labels="dashboardData.familyCompleteCount.labels"
@@ -82,7 +92,10 @@ onMounted(() => {
         />
       </DashboardCard>
 
-      <DashboardCard title="API Resources Certification Status">
+      <DashboardCard
+        id="api-resources-certification-status"
+        title="API Resources Certification Status"
+      >
         <PieChart
           :data-values="dashboardData.apiResourceCertStatus.values"
           :data-labels="dashboardData.apiResourceCertStatus.labels"
