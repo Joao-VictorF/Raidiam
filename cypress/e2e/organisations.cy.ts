@@ -1,7 +1,21 @@
 /// <reference types="cypress" />
 
+const SELECTORS = {
+  organisationCard: '.organisation-card',
+  popoverBtn: '.popover-btn',
+  popoverContent: '.popover-content',
+  searchInput: 'input[placeholder="Search by Name, Registration ID or Registration Number"]',
+  listboxBtn: '.listbox-btn',
+  listboxContent: '.listbox-content',
+  loadingSkeleton: '.loading-card-skeleton',
+  noResultsMessage: 'No organisation match your search.'
+}
+
 describe('Organisations Page', () => {
   beforeEach(() => {
+    cy.intercept('GET', '**/participants', {
+      fixture: 'participants.json'
+    }).as('getOrganisations')
     cy.visit('/')
   })
 
@@ -12,20 +26,15 @@ describe('Organisations Page', () => {
     }).as('getOrganisations')
 
     cy.visit('/')
-    cy.get('.loading-card-skeleton').its('length').should('be.gt', 1)
+    cy.get(SELECTORS.loadingSkeleton).its('length').should('be.gt', 1)
   })
 
   it('should display filtered organisations', () => {
-    cy.intercept('GET', '**/participants', {
-      fixture: 'participants.json'
-    }).as('getOrganisations')
-
-    cy.visit('/')
     cy.wait('@getOrganisations')
 
-    cy.get('input').type('Santander{enter}')
-    cy.get('.organisation-card').should('have.length.greaterThan', 0)
-    cy.get('.organisation-card')
+    cy.get(SELECTORS.searchInput).type('Santander{enter}')
+    cy.get(SELECTORS.organisationCard).should('have.length.greaterThan', 0)
+    cy.get(SELECTORS.organisationCard)
       .filter((index, element) => {
         return Cypress.$(element).text().toLowerCase().includes('santander'.toLowerCase())
       })
@@ -33,28 +42,24 @@ describe('Organisations Page', () => {
   })
 
   it('should display empty state message when no organisations match the filter', () => {
-    cy.intercept('GET', '**/participants', {
-      fixture: 'participants.json'
-    }).as('getOrganisations')
-
-    cy.visit('/')
     cy.wait('@getOrganisations')
 
-    cy.get('input').type('Nonexistent Organisation{enter}')
-    cy.contains('No organisation match your search.').should('be.visible')
+    cy.get(SELECTORS.searchInput).type('Nonexistent Organisation{enter}')
+    cy.contains(SELECTORS.noResultsMessage).should('be.visible')
   })
 })
 
 describe('Organisation Card Popovers', () => {
-  beforeEach(() => {
-    cy.visit('/')
-  })
+  beforeEach(() => cy.visit('/'))
 
   it('should open the popover and check its content for OrgDomainClaims', () => {
-    cy.get('.organisation-card').first().find('.popover-btn:contains("Org. Domain Claims")').click()
+    cy.get(SELECTORS.organisationCard)
+      .first()
+      .find(`${SELECTORS.popoverBtn}:contains("Org. Domain Claims")`)
+      .click()
 
-    cy.get('.popover-content').should('be.visible')
-    cy.get('.popover-content table').within(() => {
+    cy.get(SELECTORS.popoverContent).should('be.visible')
+    cy.get(`${SELECTORS.popoverContent} table`).within(() => {
       cy.get('thead').contains('th', 'AuthorityName')
       cy.get('thead').contains('th', 'AuthorisationDomainName')
       cy.get('thead').contains('th', 'Status')
@@ -63,13 +68,13 @@ describe('Organisation Card Popovers', () => {
   })
 
   it('should open the popover and check its content for OrgDomainRoleClaims', () => {
-    cy.get('.organisation-card')
+    cy.get(SELECTORS.organisationCard)
       .first()
-      .find('.popover-btn:contains("Org. Domain Role Claims")')
+      .find(`${SELECTORS.popoverBtn}:contains("Org. Domain Role Claims")`)
       .click()
 
-    cy.get('.popover-content').should('be.visible')
-    cy.get('.popover-content table').within(() => {
+    cy.get(SELECTORS.popoverContent).should('be.visible')
+    cy.get(`${SELECTORS.popoverContent} table`).within(() => {
       cy.get('thead').contains('th', 'AuthorisationDomain')
       cy.get('thead').contains('th', 'Role')
       cy.get('thead').contains('th', 'Registration ID')
@@ -80,28 +85,19 @@ describe('Organisation Card Popovers', () => {
 })
 
 describe('Tags Filtering', () => {
-  before(() => {
-    cy.visit('/')
-  })
+  beforeEach(() => cy.visit('/'))
 
   it('should filter organisations by selected tag', () => {
-    cy.intercept('GET', '**/participants', {
-      fixture: 'participants.json'
-    }).as('getOrganisations')
-
-    cy.visit('/')
-    cy.wait('@getOrganisations')
-
     // Open the tags dropdown
-    cy.get('.listbox-btn:contains("Tags:")').click()
-    cy.get('.listbox-content').contains('Instituições bancárias').click()
-    cy.get('.organisation-card').should('have.length', 2)
+    cy.get(`${SELECTORS.listboxBtn}:contains("Tags:")`).click()
+    cy.get(SELECTORS.listboxContent).contains('Instituições bancárias').click()
+    cy.get(SELECTORS.organisationCard).should('have.length', 2)
 
     // Open the tags dropdown again
-    cy.get('.listbox-btn:contains("Tags:")').click()
-    cy.get('.listbox-content').contains('All').click()
+    cy.get(`${SELECTORS.listboxBtn}:contains("Tags:")`).click()
+    cy.get(SELECTORS.listboxContent).contains('All').click()
 
     // Check if all organisations are displayed again
-    cy.get('.organisation-card').its('length').should('be.gt', 2)
+    cy.get(SELECTORS.organisationCard).its('length').should('be.gt', 2)
   })
 })
