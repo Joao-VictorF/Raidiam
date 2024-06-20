@@ -12,8 +12,10 @@ const route = useRoute()
 const navigationStore = useNavigationStore()
 const participantsStore = useParticipantsStore()
 
-const ApiResources = ref<ApiResource[]>([])
 const searchTerm = ref('')
+const loading = computed<boolean>(() => participantsStore.loading)
+
+const ApiResources = ref<ApiResource[]>([])
 
 const filteredApiResources = computed(() => {
   if (!searchTerm.value) return ApiResources.value
@@ -66,7 +68,12 @@ function updateBreadcrumbs(organisation: Organisation) {
   })
 }
 
-function setState() {
+async function setState() {
+  const organisations = participantsStore.organisations
+  if (!organisations || organisations.length === 0) {
+    await participantsStore.loadOrganisations()
+  }
+
   const { organisation } = getApiResources()
   if (organisation) {
     updateBreadcrumbs(organisation)
@@ -88,7 +95,19 @@ watchEffect(() => setState())
       class="mb-4 px-4 py-2 border rounded-md text-[14px] focus:outline-none"
     />
 
-    <div v-if="filteredApiResources.length === 0">
+    <div v-if="loading" class="grid grid-cols-1 gap-y-2">
+      <LoadingCardSkeleton
+        v-for="i in 12"
+        :key="`loading-card-skeleton-${i}`"
+        show-title
+        :show-subtitle="false"
+        :show-btn="false"
+        :show-text="false"
+        classes="bg-gray-300 !w-full rounded-lg loading-card-skeleton"
+      />
+    </div>
+
+    <div v-if="filteredApiResources.length === 0 && !loading">
       <EmptyState>
         <template #message> No Api's match your search.</template>
       </EmptyState>

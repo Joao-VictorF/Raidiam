@@ -13,6 +13,7 @@ const participantsStore = useParticipantsStore()
 
 const searchTerm = ref('')
 const organisation = ref<Organisation | undefined>()
+const loading = computed<boolean>(() => participantsStore.loading)
 
 const filteredAuthorisationServers = computed(() => {
   if (!searchTerm.value) {
@@ -23,7 +24,18 @@ const filteredAuthorisationServers = computed(() => {
   )
 })
 
+async function setState() {
+  const organisations = participantsStore.organisations
+  if (!organisations || organisations.length === 0) {
+    await participantsStore.loadOrganisations()
+  }
+
+  const id = route.params.id as string
+  organisation.value = participantsStore.getById(id)
+}
+
 onMounted(() => {
+  setState()
   navigationStore.addBreadcrumb(
     {
       key: BreadcrumbsKeys.ORGANISATIONS,
@@ -32,7 +44,6 @@ onMounted(() => {
     },
     0
   )
-  organisation.value = participantsStore.getById(route.params.id as String)
   navigationStore.updateBreadcrumb(BreadcrumbsKeys.ORGANISATION_BY_ID, {
     title: organisation.value?.OrganisationName as BreadcrumbsTitles
   })
@@ -48,10 +59,7 @@ onBeforeUpdate(() => {
   }
 })
 
-watchEffect(() => {
-  const id = route.params.id as string
-  organisation.value = participantsStore.getById(id)
-})
+watchEffect(() => setState())
 </script>
 
 <template>
@@ -64,7 +72,11 @@ watchEffect(() => {
       class="mb-4 px-4 py-2 border rounded-md text-[14px] focus:outline-none"
     />
 
-    <div v-if="filteredAuthorisationServers.length === 0">
+    <div v-if="loading" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <LoadingCardSkeleton v-for="i in 12" :key="`loading-card-skeleton-${i}`" />
+    </div>
+
+    <div v-if="filteredAuthorisationServers.length === 0 && !loading">
       <EmptyState>
         <template #message> No authorisation servers match your search.</template>
       </EmptyState>

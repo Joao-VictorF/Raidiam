@@ -4,19 +4,21 @@ interface Props {
   showSubtitle?: boolean
   showText?: boolean
   showBtn?: boolean
+  classes?: string
 }
 
 withDefaults(defineProps<Props>(), {
   showTitle: true,
   showSubtitle: true,
   showText: true,
-  showBtn: false
+  showBtn: false,
+  classes: 'bg-white w-full rounded-lg shadow-md px-6 py-8 loading-card-skeleton'
 })
 </script>
 
 <template>
-  <div class="bg-white w-full rounded-lg shadow-md px-6 py-8 loading-card-skeleton">
-    <div class="animate-pulse">
+  <div :class="classes">
+    <div class="animate-pulse w-full">
       <!-- Title -->
       <div v-if="showTitle" class="h-6 bg-gray-300 rounded w-1/2 mb-4"></div>
 

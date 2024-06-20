@@ -59,6 +59,7 @@ watchEffect(() => setState())
         id="authorisation-servers-feature-support"
         title="Features Support in Authorisation Servers"
         :subtitle="`Total Auth. Servers: ${dashboardData.authorisationServersFeatureSupport.total ?? 0}`"
+        columns-classes="col-span-1 lg:col-span-2"
       >
         <BarChart
           :data-values="
@@ -95,6 +96,7 @@ watchEffect(() => setState())
       <DashboardCard
         id="api-resources-certification-status"
         title="API Resources Certification Status"
+        columns-classes="col-span-1 lg:col-span-2"
       >
         <PieChart
           :data-values="dashboardData.apiResourceCertStatus.values"
