@@ -65,7 +65,7 @@ const navigateToBreadcrumbLink = (route: string) => {
       </nav>
 
       <div class="flex justify-between items-center">
-        <h2 class="text-2xl font-bold text-white text-arvo sm:text-3xl sm:truncate">
+        <h2 class="text-2xl font-bold text-white text-arvo sm:text-3xl sm:truncate header-title">
           {{ pageTitle }}
         </h2>
 

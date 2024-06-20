@@ -9,7 +9,8 @@ useHead({
 onMounted(() => {
   const participantsStore = useParticipantsStore()
   if (window.Cypress) {
-    window.store = { participantsStore }
+    //@ts-expect-error - Window stores does not exists, we're creating to expose it to cypress
+    window.stores = { participantsStore }
   }
 })
 </script>

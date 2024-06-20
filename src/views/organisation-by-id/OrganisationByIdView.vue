@@ -11,8 +11,8 @@ const route = useRoute()
 const navigationStore = useNavigationStore()
 const participantsStore = useParticipantsStore()
 
-const organisation = ref<Organisation | undefined>()
 const searchTerm = ref('')
+const organisation = ref<Organisation | undefined>()
 
 const filteredAuthorisationServers = computed(() => {
   if (!searchTerm.value) {
@@ -32,7 +32,6 @@ onMounted(() => {
     },
     0
   )
-
   organisation.value = participantsStore.getById(route.params.id as String)
   navigationStore.updateBreadcrumb(BreadcrumbsKeys.ORGANISATION_BY_ID, {
     title: organisation.value?.OrganisationName as BreadcrumbsTitles
@@ -47,6 +46,11 @@ onBeforeUpdate(() => {
       title: organisation.value?.OrganisationName as BreadcrumbsTitles
     })
   }
+})
+
+watchEffect(() => {
+  const id = route.params.id as string
+  organisation.value = participantsStore.getById(id)
 })
 </script>
 

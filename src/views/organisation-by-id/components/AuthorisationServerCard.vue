@@ -61,10 +61,9 @@ function openApiResources() {
 
 <template>
   <div
-    class="flex flex-col justify-between gap-y-3 bg-white shadow-md rounded-lg p-6 cursor-pointer"
     @click="openApiResources()"
+    class="flex flex-col justify-between gap-y-3 bg-white shadow-md rounded-lg p-6 cursor-pointer authorisation-server-card"
   >
-    <!-- <div class="flex flex-col justify-between gap-y-3"> -->
     <div class="flex gap-x-3 items-center">
       <img
         :src="server.CustomerFriendlyLogoUri"
@@ -97,9 +96,6 @@ function openApiResources() {
         {{ feature.supported ? `Support ${feature.name}` : `Don't Support ${feature.name}` }}
       </span>
     </div>
-
-    <!-- <p class="text-gray-700 mb-2 text-justify">{{ server.CustomerFriendlyDescription }}</p> -->
-    <!-- </div> -->
 
     <!-- Useful Links -->
     <div class="flex flex-col py-4 border-y-2 border-gray-500 border-opacity-20 text-[14px]">
