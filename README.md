@@ -1,61 +1,78 @@
-# raidiam-technical-case
+# Technical Assignment Documentation
 
-This template should help get you started developing with Vue 3 in Vite.
+## Project Overview
 
-## Recommended IDE Setup
+This project involves developing a Vue.js application that displays various organizational data through interactive charts. The application uses `vue3-charts` for visualizations and `pinia` for state management.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Prerequisites
 
-## Type Support for `.vue` Imports in TS
+Ensure you have the following installed on your system:
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+- Node.js (version 18.x or higher)
+- Yarn (version 1.x or higher)
 
-## Customize configuration
+## Installation
 
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Joao-VictorF/Raidiam
+   cd Raidiam
+   ```
+2. Install the dependencies: `yarn`
 
-## Project Setup
+## Development
 
-```sh
-npm install
-```
+To start the development server, run: `yarn dev`
 
-### Compile and Hot-Reload for Development
+This command will start the application on `localhost:8080` and automatically open it.
 
-```sh
-npm run dev
-```
+## Running Tests
 
-### Type-Check, Compile and Minify for Production
+The project uses Cypress for end-to-end testing. The test files are located in the `cypress/` directory.
 
-```sh
-npm run build
-```
+To run the tests in development mode, use the following command:
+`yarn test:e2e:dev`
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+This will open the Cypress test runner, allowing you to run individual tests or all tests at once.
 
-```sh
-npm run test:unit
-```
+## Component Structure
 
-### Run End-to-End Tests with [Cypress](https://www.cypress.io/)
+The main components used in the project are as follows:
 
-```sh
-npm run test:e2e:dev
-```
+1. `PieChart.vue` - Renders pie charts based on provided data.
+2. `BarChart.vue` - Renders bar charts based on provided data.
+3. `DashboardCard.vue` - Wrapper component for individual dashboard sections.
+4. `OrganisationCard.vue` - Displays individual organization details.
+5. `ApiResourceInformation.vue -` Shows detailed information about API resources.
+6. `AuthorisationServerCard.vue` - Displays individual authorization server details.
+7. `Filters.vue` - Handles filtering of organizations based on various criteria.
 
-This runs the end-to-end tests against the Vite development server.
-It is much faster than the production build.
+## Cypress Tests
 
-But it's still recommended to test the production build with `test:e2e` before deploying (e.g. in CI environments):
+The Cypress tests are organized to cover various aspects of the application, such as loading states, filtering functionality, and popover interactions. Below is a brief overview of the Cypress test structure:
 
-```sh
-npm run build
-npm run test:e2e
-```
+1. Organisations Page Tests (`organisations.cy.ts`):
+   - Verify loading skeleton cards.
+   - Ensure organizations are displayed and filtered correctly.
+   - Test popover content for domain claims and role claims.
+   - Check tag filtering functionality.
+     <br>
+2. Authorisation Servers Page Tests (`authorisation-servers.cy.ts`):
+   - Validate the display of organization details.
+   - Check rendering of authorization server cards.
+   - Test popover content for authorization server certifications.
+   - Verify search functionality for authorization servers.
+     <br>
+3. API Resources Page Tests (`api-resources.cy.ts`):
+   - Ensure API resources are displayed correctly.
+   - Verify the search functionality for API resources.
+   - Check accordion content for API resource information.
+   - Validate links and copy functionality in API discovery endpoints.
+     <br>
+4. Dashboard Page Tests (`dashboard.cy.ts`):
 
-### Lint with [ESLint](https://eslint.org/)
+   - Validate the display of loading skeletons.
+   - Check rendering of charts and data correctness.
+   - Verify interactions with chart elements.
 
-```sh
-npm run lint
-```
+   # Thanks! =)
