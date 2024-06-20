@@ -1,0 +1,47 @@
+{
+  "statusCount": {
+    "labels": ["Active", "Pending", "Withdrawn"],
+    "values": [170, 0, 0]
+  },
+  "organisationsByState": {
+    "PR": 14,
+    "SP": 98,
+    "MG": 9,
+    "RJ": 8,
+    "CE": 2,
+    "SC": 8,
+    "DF": 4,
+    "RO": 2,
+    "GO": 1,
+    "RS": 8,
+    "PE": 1,
+    "SE": 1,
+    "ES": 3,
+    "PA": 2,
+    "MS": 2,
+    "MT": 1,
+    "BH": 1,
+    "PB": 1
+  },
+  "authorisationServersFeatureSupport": {
+    "total": 232,
+    "featureSupport": {
+      "Ciba": 0,
+      "DCR": 219,
+      "Redirect": 223,
+      "AutoRegistration": 153
+    }
+  },
+  "certifications": {
+    "Redirect:Self-Certified": 764,
+    "DCR:Self-Certified": 431
+  },
+  "familyCompleteCount": {
+    "labels": ["Complete", "Incomplete"],
+    "values": [3988, 44]
+  },
+  "apiResourceCertStatus": {
+    "labels": ["Self-Certified", "Warning", "Rejected", "Deprecated", "Awaiting Certification"],
+    "values": [3897, 67, 25, 8, 4]
+  }
+}

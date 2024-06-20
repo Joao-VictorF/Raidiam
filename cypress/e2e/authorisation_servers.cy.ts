@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 import organisation from '../fixtures/organisation.json'
 
-let stores: Cypress.AUTWindow['stores']
+let stores
 
 const SELECTORS = {
   organisationCard: '.organisation-card',
