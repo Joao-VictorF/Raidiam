@@ -37,7 +37,7 @@ const statusTextClass = function (status: AuthorisationServerCertificationStatus
       <tbody>
         <tr class="border-b text-gray-600 text-[14px] text-left">
           <td
-            class="px-4 py-2 font-semibold"
+            class="px-4 py-2 font-semibold certification-status"
             :class="
               statusTextClass(Api.CertificationStatus as AuthorisationServerCertificationStatus)
             "

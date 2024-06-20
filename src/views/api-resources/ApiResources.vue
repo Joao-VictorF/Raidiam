@@ -6,6 +6,7 @@ import ApiResourceInformation from './components/ApiResourceInformation.vue'
 
 import { ApiResource } from '@/models/ApiResource'
 import { BreadcrumbsKeys, BreadcrumbsTitles } from '@/models/Breadcrumb'
+import { Organisation } from '@/models/Organisation'
 
 const route = useRoute()
 const navigationStore = useNavigationStore()
@@ -22,13 +23,18 @@ const filteredApiResources = computed(() => {
   )
 })
 
-onMounted(() => {
+function getApiResources(): { organisation: Organisation | undefined } {
   const organisation = participantsStore.getById(route.params.id as String)
   ApiResources.value =
     organisation?.AuthorisationServers.find(
       (server) => server.AuthorisationServerId === route.params.serverId
     )?.ApiResources ?? []
 
+  return { organisation }
+}
+
+function updateBreadcrumbs(organisation: Organisation) {
+  navigationStore.clearBreadcrumbs()
   navigationStore.addBreadcrumb(
     {
       key: BreadcrumbsKeys.ORGANISATIONS,
@@ -45,7 +51,6 @@ onMounted(() => {
     },
     1
   )
-
   navigationStore.addBreadcrumb(
     {
       key: 'temp-api-resources' as BreadcrumbsKeys,
@@ -59,7 +64,17 @@ onMounted(() => {
     title: organisation?.OrganisationName as BreadcrumbsTitles,
     hidden: true
   })
-})
+}
+
+function setState() {
+  const { organisation } = getApiResources()
+  if (organisation) {
+    updateBreadcrumbs(organisation)
+  }
+}
+
+onMounted(() => setState())
+watchEffect(() => setState())
 </script>
 
 <template>

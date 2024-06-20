@@ -11,7 +11,7 @@ defineProps<{
 <template>
   <Disclosure as="div" v-slot="{ open }">
     <DisclosureButton
-      class="group inline-flex items-center justify-between px-3 py-2 text-[12px] focus:outline-none"
+      class="group inline-flex items-center justify-between px-3 py-2 text-[12px] focus:outline-none accordion-btn"
       :class="[btnClasses, open ? 'rounded-t-md' : 'rounded-md']"
     >
       <slot name="title" />
@@ -25,7 +25,10 @@ defineProps<{
     </DisclosureButton>
 
     <DisclosurePanel>
-      <div class="p-5 w-full bg-white rounded-b-md accordion-menu-shadow" :class="menuClasses">
+      <div
+        class="p-5 w-full bg-white rounded-b-md accordion-content accordion-menu-shadow"
+        :class="menuClasses"
+      >
         <slot name="data" />
       </div>
     </DisclosurePanel>
