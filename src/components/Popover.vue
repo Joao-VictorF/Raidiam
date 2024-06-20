@@ -24,7 +24,7 @@ const { floatingStyles } = useFloating(popoverBtn, popoverMenu, {
   <Popover v-slot="{ open }" class="relative">
     <PopoverButton
       ref="popoverBtn"
-      class="group inline-flex items-center justify-between rounded-md px-3 py-2 text-[12px] focus:outline-none"
+      class="group inline-flex items-center justify-between rounded-md px-3 py-2 text-[12px] focus:outline-none popover-btn"
       :class="[btnClasses, disabled ? '!bg-gray-100' : '']"
       :disabled="disabled"
     >
@@ -52,7 +52,7 @@ const { floatingStyles } = useFloating(popoverBtn, popoverMenu, {
       <PopoverPanel class="absolute left-1/2 z-10 mt-3 -translate-x-1/2 transform">
         <div
           ref="popoverMenu"
-          class="p-5 w-full bg-white rounded-md popover-menu-shadow"
+          class="p-5 w-full bg-white rounded-md popover-menu-shadow popover-content"
           :class="menuClasses"
           :style="floatingStyles"
         >

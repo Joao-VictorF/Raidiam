@@ -25,7 +25,7 @@ const { floatingStyles } = useFloating(listBoxBtn, listBoxOptions, {
     <div class="relative mt-1">
       <ListboxButton
         ref="listBoxBtn"
-        class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 sm:text-sm"
+        class="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 sm:text-sm listbox-btn"
       >
         <span class="block truncate text-[14px]">
           <span class="font-semibold">{{ prefixText }}</span>
@@ -47,7 +47,7 @@ const { floatingStyles } = useFloating(listBoxBtn, listBoxOptions, {
       >
         <div v-show="open" ref="listBoxOptions" :style="floatingStyles" style="z-index: 100">
           <ListboxOptions
-            class="mt-1 max-h-80 rounded-md overflow-auto bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm"
+            class="mt-1 max-h-80 rounded-md overflow-auto bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm listbox-content"
           >
             <ListboxOption
               v-slot="{ active, selected }"

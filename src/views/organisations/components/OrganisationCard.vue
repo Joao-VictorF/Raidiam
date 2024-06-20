@@ -55,7 +55,7 @@ function openOrganisationPage() {
 
 <template>
   <div
-    class="bg-white rounded-lg shadow-md px-6 py-8 text-source-code flex flex-col justify-start cursor-pointer hover:shadow-lg"
+    class="bg-white rounded-lg shadow-md px-6 py-8 text-source-code flex flex-col justify-start cursor-pointer hover:shadow-lg organisation-card"
     @click="openOrganisationPage()"
   >
     <div class="flex flex-col">
